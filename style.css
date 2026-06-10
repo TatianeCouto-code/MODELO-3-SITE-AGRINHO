@@ -1,1 +1,417 @@
-text-decoration: underline;}.rodape-tagline {text-align: center;font-weight: bold;color: var(--cor-amarelo);font-size: 1.1rem;}/* ==========================================================================MODO ESCURO (Acessibilidade Avançada)========================================================================== */body.dark-mode {background-color: var(--cor-preto);color: #E0E0E0;}body.dark-mode .intro-section,body.dark-mode .accordion-header,body.dark-mode .comentarios-section {background: #1E1E1E;color: #E0E0E0;}body.dark-mode .card-form {background: linear-gradient(to bottom, #1E1E1E, #121212);border-color: rgba(255,255,255,0.1);}body.dark-mode .card-form h2,body.dark-mode .content-pilares h2,body.dark-mode .comentarios-section h3 {color: var(--cor-amarelo);}body.dark-mode .accordion-item,body.dark-mode .card-comentario-usuario {background: #252525;}body.dark-mode .accordion-content p {color: #CCC;}body.dark-mode input,body.dark-mode textarea {background: #2D2D2D;border-color: #444;color: var(--cor-branco);}/* ==========================================================================MEDIA QUERIES (Responsividade fluida de 320px a 2560px)========================================================================== */@media (max-width: 1024px) {.main-grid {grid-template-columns: 1fr;}.card-form {position: static;}.acessibilidade-container {flex-direction: row;top: auto;bottom: 20px;left: 50%;transform: translateX(-50%);width: 90%;max-width: 450px;justify-content: space-around;box-shadow: 0 -4px 20px rgba(0,0,0,0.15);}}@media (max-width: 480px) {#conteudo-principal {padding: 1rem;}.card-form, .intro-section, .comentarios-section {padding: 1.5rem;}}
+
+### 2. Arquivo `style.css`
+```css
+/* ==========================================================================
+   VARIÁVEIS DE CONFIGURAÇÃO (Fácil Customização)
+   ========================================================================== */
+:root {
+    /* Paleta de Cores Obrigatória */
+    --cor-azul: #0B3C5D;
+    --cor-branco: #FFFFFF;
+    --cor-azul-celeste: #328CC1;
+    --cor-azul-metalico: #1D2731;
+    --cor-verde: #417505;
+    --cor-amarelo: #F8E71C;
+    --cor-ouro: #D9B310;
+    --cor-preto: #111111;
+
+    /* Cores de Suporte e Layout Base (Modo Claro) */
+    --bg-principal: #F4F7F6;
+    --bg-card: #FFFFFF;
+    --texto-principal: #1D2731;
+    --texto-secundario: #555555;
+    --borda-cor: #E0E0E0;
+    
+    /* Configurações de Espaçamento e Bordas */
+    --raio-borda: 12px;
+    --sombra-suave: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --sombra-premium: 0 10px 30px rgba(11, 60, 93, 0.12);
+    --transicao: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    /* Tipografia Fluida com clamp() */
+    --fonte-titulo-hero: clamp(2rem, 5vw, 3.5rem);
+    --fonte-titulo-secao: clamp(1.5rem, 3.5vw, 2.2rem);
+    --fonte-corpo: clamp(1rem, 1vw + 0.5rem, 1.15rem);
+    --multiplicador-fonte: 1;
+}
+
+/* Modificadores para o Modo Escuro */
+body.modo-escuro {
+    --bg-principal: #0F172A;
+    --bg-card: #1E293B;
+    --texto-principal: #F8FAFC;
+    --texto-secundario: #CBD5E1;
+    --borda-cor: #334155;
+    --sombra-suave: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ==========================================================================
+   RESETS E ESTILOS GERAIS
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: calc(16px * var(--multiplicador-fonte));
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-principal);
+    color: var(--texto-principal);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* ==========================================================================
+   PAINEL DE ACESSIBILIDADE FLUTUANTE
+   ========================================================================== */
+.acessibilidade-painel {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background-color: var(--cor-azul-metalico);
+    padding: 10px;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: var(--sombra-premium);
+    z-index: 999;
+    border: 2px solid var(--cor-azul-celeste);
+}
+
+.btn-acessibilidade {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--cor-azul);
+    color: var(--cor-branco);
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transicao);
+    font-size: 1.1rem;
+}
+
+.btn-acessibilidade:hover,
+.btn-acessibilidade:focus {
+    background-color: var(--cor-verde);
+    transform: scale(1.1);
+    outline: 2px solid var(--cor-amarelo);
+}
+
+.btn-acessibilidade:disabled {
+    background-color: #444444;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+.hero {
+    background: linear-gradient(135deg, rgba(11,60,93,0.95) 0%, rgba(29,39,49,0.9) 100%), 
+                repeating-linear-gradient(45deg, #1d2731 0px, #1d2731 2px, transparent 2px, transparent 10px);
+    color: var(--cor-branco);
+    padding: clamp(4rem, 10vw, 8rem) 0;
+    text-align: center;
+    border-bottom: 6px solid var(--cor-verde);
+    position: relative;
+}
+
+.hero-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 900px;
+}
+
+.hero-tag {
+    background-color: var(--cor-verde);
+    color: var(--cor-amarelo);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    font-size: var(--fonte-titulo-hero);
+    line-height: 1.2;
+    font-weight: 800;
+}
+
+.hero p {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    color: var(--cor-azul-celeste);
+    max-width: 750px;
+}
+
+.btn-principal {
+    display: inline-block;
+    background-color: var(--cor-ouro);
+    color: var(--cor-preto);
+    padding: 14px 32px;
+    border-radius: var(--raio-borda);
+    text-decoration: none;
+    font-weight: 700;
+    transition: var(--transicao);
+    box-shadow: 0 4px 15px rgba(217, 179, 16, 0.4);
+}
+
+.btn-principal:hover {
+    background-color: var(--cor-verde);
+    color: var(--cor-branco);
+    transform: translateY(-3px);
+}
+
+/* ==========================================================================
+   ESTRUTURA DE IMAGEM (Requisito Especial N°3)
+   ========================================================================== */
+.imagem {
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--raio-borda);
+    box-shadow: var(--sombra-suave);
+    transition: var(--transicao);
+    background-color: var(--cor-azul-metalico);
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transicao);
+    display: block;
+}
+
+/* Efeito hover suave e premium */
+.imagem:hover {
+    box-shadow: var(--sombra-premium);
+    transform: translateY(-4px);
+}
+
+.imagem:hover img {
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   SEÇÕES DE CONTEÚDO E LAYOUT (Grid / Flexbox)
+   ========================================================================== */
+main {
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+}
+
+h2 {
+    font-size: var(--fonte-titulo-secao);
+    color: var(--cor-azul);
+    margin-bottom: 1.5rem;
+}
+
+body.modo-escuro h2 {
+    color: var(--cor-azul-celeste);
+}
+
+/* Introdução Grid */
+.intro-grid {
+    display: grid;
+    grid-template-columns: minmax(300px, 1.2fr) minmax(280px, 0.8fr);
+    gap: 3rem;
+    align-items: center;
+}
+
+.intro-texto p {
+    margin-bottom: 1.2rem;
+    color: var(--texto-secundario);
+    font-size: var(--fonte-corpo);
+}
+
+/* Accordion (Componente Expansível) */
+.subtitulo-secao {
+    margin-bottom: 2rem;
+    color: var(--texto-secundario);
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.accordion-item {
+    background-color: var(--bg-card);
+    border: 1px solid var(--borda-cor);
+    border-radius: var(--raio-borda);
+    overflow: hidden;
+    box-shadow: var(--sombra-suave);
+}
+
+.accordion-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--texto-principal);
+    text-align: left;
+    cursor: pointer;
+    transition: var(--transicao);
+}
+
+.accordion-header:hover, 
+.accordion-header:focus {
+    background-color: rgba(50, 140, 193, 0.08);
+    color: var(--cor-azul);
+    outline: none;
+}
+
+.accordion-icone {
+    font-size: 1.5rem;
+    color: var(--cor-azul-celeste);
+    transition: transform 0.3s ease;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+    background-color: rgba(0,0,0,0.01);
+}
+
+.accordion-content p {
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    color: var(--texto-secundario);
+    font-size: var(--fonte-corpo);
+}
+
+/* Cards Grid Informações */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+}
+
+.card {
+    background-color: var(--bg-card);
+    border-radius: var(--raio-borda);
+    padding: 2.5rem;
+    box-shadow: var(--sombra-suave);
+    border: 1px solid var(--borda-cor);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.card h3 {
+    font-size: 1.4rem;
+    color: var(--cor-azul);
+}
+
+body.modo-escuro .card h3 {
+    color: var(--cor-azul-celeste);
+}
+
+.card p {
+    color: var(--texto-secundario);
+    font-size: var(--fonte-corpo);
+    flex-grow: 1;
+}
+
+/* ==========================================================================
+   ÁREA INTERATIVA: FORMULÁRIO E COMENTÁRIOS
+   ========================================================================== */
+.interativa-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 3rem;
+}
+
+.painel-formulario, .painel-comentarios {
+    background-color: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: var(--raio-borda);
+    box-shadow: var(--sombra-premium);
+    border: 1px solid var(--borda-cor);
+}
+
+.painel-formulario h3, .painel-comentarios h3 {
+    margin-bottom: 0.5rem;
+    color: var(--cor-azul);
+}
+
+body.modo-escuro .painel-formulario h3, 
+body.modo-escuro .painel-comentarios h3 {
+    color: var(--cor-azul-celeste);
+}
+
+.painel-formulario p, .painel-comentarios p {
+    margin-bottom: 1.5rem;
+    color: var(--texto-secundario);
+}
+
+/* Componentes de Formulários */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.campo-linha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--texto-principal);
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--borda-cor);
+    border-radius: 8px;
+    background-color: var(--bg-principal);
+    color: var(--texto-principal);
+    font-size: 1rem;
+    transition: var(--transicao);
+}
